@@ -22,14 +22,45 @@ module.exports = {
         if (game) {
             res.json(game)
         } else {
-            res.json({ message: "Game Not Found" })
-            res.status(404)
+            res.status(404).json({ message: "Game Not Found" })
         }
     },
 
     //POST /games
+    save: (req, res) => {
+        const { name, genres, year } = req.body
+
+        const newGame = {
+            id: Math.floor(Math.random() * 9999999),
+            name,
+            genres,
+            year
+        }
+
+        games.push(newGame)
+        res.status(201).json(newGame)
+    },
 
     //PUT /games/:id
 
     //DELETE /games/:id
+
+    //POST /games/:id/genres/
+    addGenre: (req, res) => {
+        const { id } = req.params
+        const { genre } = req.body
+
+        const gameIndex = games.findIndex(game => game.id === +id)
+
+        if (gameIndex === -1) {
+            return res.status(404).json({ message: "Game Not Found!" })
+        }
+
+        if (typeof genre !== "string" || games[gameIndex].genres.includes(genre)) {
+            return res.status(404).json({ message: "Invalid Genre!" })
+        }
+
+        games[gameIndex].genres.push(genre)
+        res.status(201).json(games[gameIndex])
+    }
 }
