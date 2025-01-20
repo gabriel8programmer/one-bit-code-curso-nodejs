@@ -42,6 +42,26 @@ module.exports = {
     },
 
     //PUT /games/:id
+    update: (req, res) => {
+        const { id } = req.params
+        const { name, year } = req.body
+
+        const gameIndex = games.findIndex(game => game.id === +id)
+
+        if (gameIndex === -1) {
+            return res.status(404).json({ message: "Game Not Found!" })
+        }
+
+        if (typeof name === "string") {
+            games[gameIndex].name = name
+        }
+
+        if (typeof year === "number") {
+            games[gameIndex].year = year
+        }
+
+        res.status(200).json(games[gameIndex])
+    },
 
     //DELETE /games/:id
 
