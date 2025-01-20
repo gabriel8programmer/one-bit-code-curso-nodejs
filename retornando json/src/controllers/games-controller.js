@@ -64,6 +64,18 @@ module.exports = {
     },
 
     //DELETE /games/:id
+    delete: (req, res) => {
+        const { id } = req.params
+
+        const gameIndex = games.findIndex(game => game.id === +id)
+
+        if (gameIndex === -1) {
+            return res.status(404).json({ message: "Game Not Found!" })
+        }
+
+        games.splice(gameIndex, 1)
+        res.status(204).end()
+    },
 
     //POST /games/:id/genres/
     addGenre: (req, res) => {
@@ -82,5 +94,23 @@ module.exports = {
 
         games[gameIndex].genres.push(genre)
         res.status(201).json(games[gameIndex])
+    },
+
+    //DELETE /games/:id/genres/:name
+    removeGenre: (req, res) => {
+        const { id, name } = req.params
+
+        const gameIndex = games.findIndex(game => game.id === +id)
+
+        if (gameIndex === -1) {
+            return res.status(404).json({ message: "Game Not Found!" })
+        }
+
+        if (typeof name !== "string" || !games[gameIndex].genres.includes(name)) {
+            return res.status(404).json({ message: "Invalid Genre!" })
+        }
+
+        games[gameIndex].genres = games[gameIndex].genres.filter(genre => genre !== name)
+        res.status(204).end()
     }
 }
