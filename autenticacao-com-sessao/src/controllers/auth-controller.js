@@ -1,7 +1,4 @@
-let users = [
-    { username: "teste1", password: "12345" },
-    { username: "teste2", password: "54321" }
-]
+const users = require("../models/users-model")
 
 module.exports = {
     //GET /
@@ -19,7 +16,7 @@ module.exports = {
             return res.redirect("/")
         }
 
-        const user = { username, password }
+        const user = { username, password, role: "standard" }
         users.push(user)
         res.redirect("/dashboard")
     },
