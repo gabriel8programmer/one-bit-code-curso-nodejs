@@ -7,7 +7,7 @@ let books = [
 ]
 
 module.exports = {
-    getBooks: () => books,
+    getAllBooks: () => books,
 
     getBookById: (id) => books.find(book => book.id === id),
 
@@ -33,7 +33,7 @@ module.exports = {
     deleteBook: (id) => {
         const bookIndex = books.findIndex(book => book.id === id)
         if (bookIndex === -1) throw new HttpError(404, "Book is not found!")
-        const deletedBook = books.splice(bookIndex, 1)
+        const [deletedBook] = books.splice(bookIndex, 1)
         books = books.filter(book => book.id !== id)
         return deletedBook
     },

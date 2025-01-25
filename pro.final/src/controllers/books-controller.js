@@ -1,9 +1,10 @@
+// const HttpError = require("../errors/HttpError")
 const booksModel = require("../models/books-model")
 
 module.exports = {
     //GET /api/books
     index: (req, res) => {
-        const books = booksModel.getBooks()
+        const books = booksModel.getAllBooks()
         res.json(books)
     },
 
@@ -11,7 +12,7 @@ module.exports = {
     show: (req, res) => {
         const { id } = req.params
         const book = booksModel.getBookById(id)
-        if (!book) throw new Error("Book not found!")
+        if (!book) throw new HttpError(404, "Book is not found!")
         res.json(book)
     },
 

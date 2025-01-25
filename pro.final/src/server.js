@@ -9,8 +9,8 @@ const app = express()
 
 app.use(express.json())
 
-app.use(authRouter)
-app.use(apiRouter)
+app.use("/auth", authRouter)
+app.use("/api", apiRouter)
 
 app.use(errorMiddleware)
 
